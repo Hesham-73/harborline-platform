@@ -1,0 +1,7 @@
+{
+  "name": "harborline-shipping",
+  "private": true,
+  "dependencies": {
+    "express": "4.21.2"
+  }
+}

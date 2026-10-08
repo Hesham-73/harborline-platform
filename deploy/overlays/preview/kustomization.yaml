@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: harborline-preview
+resources:
+  - ../../base
+images:
+  - name: ghcr.io/hesham-73/harborline-gateway:2.3.0
+    newName: ghcr.io/hesham-73/harborline-gateway
+    newTag: "2.3.0-preview"

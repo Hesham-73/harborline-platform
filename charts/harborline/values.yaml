@@ -1,0 +1,4 @@
+replicaCount: 2
+image:
+  repository: ghcr.io/hesham-73/harborline-gateway
+  tag: "2.3.0"

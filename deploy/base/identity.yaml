@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity
+  namespace: harborline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: identity
+  template:
+    metadata:
+      labels:
+        app: identity
+    spec:
+      containers:
+        - name: identity
+          image: ghcr.io/hesham-73/harborline-identity:2.3.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: identity-config
+            - secretRef:
+                name: identity-identity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity
+  namespace: harborline
+spec:
+  selector:
+    app: identity
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: identity-config
+  namespace: harborline
+data:
+  SERVICE_NAME: identity
+  LOG_LEVEL: info
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: identity-identity
+  namespace: harborline
+stringData:
+  token: SAMPLE_VALUE_NOT_A_REAL_SECRET

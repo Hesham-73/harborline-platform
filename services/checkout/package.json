@@ -1,0 +1,7 @@
+{
+  "name": "harborline-checkout",
+  "private": true,
+  "dependencies": {
+    "express": "4.21.2"
+  }
+}

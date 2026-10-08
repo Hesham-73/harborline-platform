@@ -1,0 +1,10 @@
+apiVersion: v2
+name: harborline
+version: 2.3.0
+dependencies:
+  - name: postgres
+    version: 0.4.0
+    repository: file://../postgres
+  - name: redis
+    version: 20.6.2
+    repository: https://charts.bitnami.com/bitnami

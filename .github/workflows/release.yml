@@ -1,0 +1,143 @@
+name: Harborline release
+on:
+  push:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "compile contracts, services, and storefront"
+  build-gateway:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/gateway
+          file: services/gateway/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-gateway:2.3.0
+
+  build-catalog:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/catalog
+          file: services/catalog/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-catalog:2.3.0
+
+  build-checkout:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/checkout
+          file: services/checkout/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-checkout:2.3.0
+
+  build-inventory:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/inventory
+          file: services/inventory/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-inventory:2.3.0
+
+  build-payments:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/payments
+          file: services/payments/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-payments:2.3.0
+
+  build-shipping:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/shipping
+          file: services/shipping/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-shipping:2.3.0
+
+  build-identity:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/identity
+          file: services/identity/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-identity:2.3.0
+
+  build-notifications:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/notifications
+          file: services/notifications/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-notifications:2.3.0
+
+  build-search:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/search
+          file: services/search/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-search:2.3.0
+
+  build-billing:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/billing
+          file: services/billing/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-billing:2.3.0
+
+  build-fraud:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/fraud
+          file: services/fraud/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-fraud:2.3.0
+
+  build-media:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: services/media
+          file: services/media/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-media:2.3.0
+
+  build-storefront:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v6
+        with:
+          context: web/storefront
+          file: web/storefront/Dockerfile
+          tags: ghcr.io/hesham-73/harborline-storefront:2.3.0
+  publish:
+    needs: [build-gateway, build-catalog, build-checkout, build-inventory, build-payments, build-shipping, build-identity, build-notifications, build-search, build-billing, build-fraud, build-media, build-storefront]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "record manifest 2.3.0"

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications
+  namespace: harborline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: notifications
+  template:
+    metadata:
+      labels:
+        app: notifications
+    spec:
+      containers:
+        - name: notifications
+          image: ghcr.io/hesham-73/harborline-notifications:2.3.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: notifications-config
+            - secretRef:
+                name: notifications-identity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notifications
+  namespace: harborline
+spec:
+  selector:
+    app: notifications
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notifications-config
+  namespace: harborline
+data:
+  SERVICE_NAME: notifications
+  LOG_LEVEL: info
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: notifications-identity
+  namespace: harborline
+stringData:
+  token: SAMPLE_VALUE_NOT_A_REAL_SECRET

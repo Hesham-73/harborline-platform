@@ -1,0 +1,6 @@
+package-workers:
+  stage: package
+  needs: [verify]
+  image: docker:27
+  script:
+    - echo package workers

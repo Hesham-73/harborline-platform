@@ -1,0 +1,9 @@
+include:
+  - local: ci/workers.yml
+  - project: hesham-73/security
+    file: /templates/scan.yml
+verify:
+  stage: test
+  image: node:22.14.0-alpine
+  script:
+    - echo verify

@@ -1,0 +1,159 @@
+name: harborline
+services:
+  gateway:
+    image: ghcr.io/hesham-73/harborline-gateway:2.3.0
+    build:
+      context: ./services/gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  catalog:
+    image: ghcr.io/hesham-73/harborline-catalog:2.3.0
+    build:
+      context: ./services/catalog
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  checkout:
+    image: ghcr.io/hesham-73/harborline-checkout:2.3.0
+    build:
+      context: ./services/checkout
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  inventory:
+    image: ghcr.io/hesham-73/harborline-inventory:2.3.0
+    build:
+      context: ./services/inventory
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  payments:
+    image: ghcr.io/hesham-73/harborline-payments:2.3.0
+    build:
+      context: ./services/payments
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  shipping:
+    image: ghcr.io/hesham-73/harborline-shipping:2.3.0
+    build:
+      context: ./services/shipping
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  identity:
+    image: ghcr.io/hesham-73/harborline-identity:2.3.0
+    build:
+      context: ./services/identity
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  notifications:
+    image: ghcr.io/hesham-73/harborline-notifications:2.3.0
+    build:
+      context: ./services/notifications
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  search:
+    image: ghcr.io/hesham-73/harborline-search:2.3.0
+    build:
+      context: ./services/search
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  billing:
+    image: ghcr.io/hesham-73/harborline-billing:2.3.0
+    build:
+      context: ./services/billing
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  fraud:
+    image: ghcr.io/hesham-73/harborline-fraud:2.3.0
+    build:
+      context: ./services/fraud
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  media:
+    image: ghcr.io/hesham-73/harborline-media:2.3.0
+    build:
+      context: ./services/media
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  storefront:
+    image: ghcr.io/hesham-73/harborline-storefront:2.3.0
+    build:
+      context: ./web/storefront
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - edge
+
+  postgres:
+    image: postgres:16.4
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - edge
+  redis:
+    image: redis:7.4.1
+    networks:
+      - edge
+volumes:
+  pgdata: {}
+networks:
+  edge: {}

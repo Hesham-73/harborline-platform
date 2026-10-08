@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  namespace: harborline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: checkout
+  template:
+    metadata:
+      labels:
+        app: checkout
+    spec:
+      containers:
+        - name: checkout
+          image: ghcr.io/hesham-73/harborline-checkout:2.3.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: checkout-config
+            - secretRef:
+                name: checkout-identity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout
+  namespace: harborline
+spec:
+  selector:
+    app: checkout
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkout-config
+  namespace: harborline
+data:
+  SERVICE_NAME: checkout
+  LOG_LEVEL: info
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: checkout-identity
+  namespace: harborline
+stringData:
+  token: SAMPLE_VALUE_NOT_A_REAL_SECRET

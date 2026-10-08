@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing
+  namespace: harborline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: billing
+  template:
+    metadata:
+      labels:
+        app: billing
+    spec:
+      containers:
+        - name: billing
+          image: ghcr.io/hesham-73/harborline-billing:2.3.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: billing-config
+            - secretRef:
+                name: billing-identity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing
+  namespace: harborline
+spec:
+  selector:
+    app: billing
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: billing-config
+  namespace: harborline
+data:
+  SERVICE_NAME: billing
+  LOG_LEVEL: info
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: billing-identity
+  namespace: harborline
+stringData:
+  token: SAMPLE_VALUE_NOT_A_REAL_SECRET
