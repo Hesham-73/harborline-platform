@@ -31,7 +31,7 @@ metadata:
   namespace: harborline
 spec:
   selector:
-    app: shipping
+    app: shipping-shifted
   ports:
     - port: 80
       targetPort: 8080
